@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LinkedOps — RSS Lab</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+  <link rel="alternate" type="application/rss+xml" title="LinkedOps RSS" href="./feed.xml" />
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <h1>LinkedOps — RSS Lab (Projet 1)</h1>
+      <p>Objectif : comprendre RSS concrètement. Le flux est un fichier XML publié sur une URL.</p>
+
+      <div class="cta">
+        <a class="button" href="./feed.xml">Ouvrir le flux RSS (feed.xml)</a>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Posts d'exemple</h2>
+      <ul>
+        <li>
+          <a href="./posts/2026-01-06-lundi-premier-virement.html">
+            Lundi — Test end-to-end · banque · premier virement
+          </a>
+        </li>
+        <li>
+          <a href="./posts/2026-01-07-mardi-iban-montants.html">
+            Mardi — Contrôles IBAN & montants sans friction
+          </a>
+        </li>
+      </ul>
+      <p class="note">
+        Chaque post a une page. Le flux RSS référence ces pages via les balises <code>&lt;link&gt;</code>.
+      </p>
+    </section>
+
+    <footer class="footer">
+      <p>LinkedOps © RSS Lab</p>
+    </footer>
+  </main>
+</body>
+</html>
