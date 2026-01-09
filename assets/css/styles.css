@@ -29,8 +29,22 @@ body {
   letter-spacing: 0.2px;
 }
 .subtitle {
-  margin: 0 0 20px;
+  margin: 0 0 10px;
   color: var(--muted);
+}
+
+.status {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+}
+.status[data-state="error"] {
+  color: #ffb4b4;
+  border-color: rgba(255,180,180,0.35);
 }
 
 .grid {
