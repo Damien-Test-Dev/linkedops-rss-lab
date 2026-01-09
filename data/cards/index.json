@@ -1,6 +1,7 @@
 {
   "version": 1,
   "cards": [
-    { "id": "001", "file": "person-001.json" }
+    { "id": "001", "file": "person-001.json" },
+    { "id": "002", "file": "person-002.json" }
   ]
 }
