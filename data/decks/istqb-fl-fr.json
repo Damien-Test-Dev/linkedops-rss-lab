@@ -1,27 +1,417 @@
 {
   "id": "istqb-fl-fr",
   "title": "ISTQB Foundation (FR)",
-  "description": "Cartes de révision — notions ISTQB Foundation Level (FR).",
+  "description": "Cartes de révision — ISTQB Foundation Level (FR). Chapitre 1 : éléments & sujets (version enrichie).",
+  "language": "fr",
+  "schemaVersion": 2,
   "cards": [
     {
       "id": "001",
+      "chapter": 1,
+      "section": "1) Le test logiciel : définition et finalité",
+      "level": "K1",
       "notion": "Test",
-      "definition": "Processus consistant à exécuter un programme ou un composant avec l’intention de trouver des défauts et de vérifier qu’il satisfait des exigences spécifiées.",
-      "exemple": "Exécuter un scénario utilisateur sur une application mobile pour vérifier qu’un paiement aboutit et que les erreurs sont correctement gérées.",
-      "image": null
+      "question": "Qu’est-ce que le test logiciel ?",
+      "definition": "Le test est un ensemble d’activités visant à découvrir des défauts et à fournir des informations sur la qualité du produit. Le test ne prouve pas l’absence de défauts : il réduit l’incertitude et supporte la décision.",
+      "exemple": "Exécuter un parcours de paiement et vérifier le résultat attendu (paiement accepté/rejeté correctement, messages d’erreur cohérents).",
+      "a_retenir": [
+        "Le test = détection + information",
+        "Objectif : réduire le risque, pas “prouver que tout va bien”"
+      ],
+      "keywords": ["test", "qualité", "risque", "confiance", "décision"],
+      "image": {
+        "src": "assets/images/istqb-fl-fr/001.webp",
+        "alt": "Illustration du concept de test : exécution, observation, comparaison au résultat attendu."
+      }
     },
     {
       "id": "002",
-      "notion": "Défaut vs Défaillance",
-      "definition": "Un défaut (fault/defect/bug) est une imperfection dans un artefact (code, spec, test). Une défaillance (failure) est le comportement observé incorrect lorsque le logiciel s’exécute.",
-      "exemple": "Défaut : une condition '>=’ codée au lieu de '>'. Défaillance : le système accepte un âge invalide et laisse créer un compte.",
+      "chapter": 1,
+      "section": "2) Pourquoi tester : valeur business et qualité",
+      "level": "K1",
+      "notion": "Erreur → Défaut → Défaillance",
+      "question": "Quelle est la chaîne classique de cause à effet en qualité logicielle ?",
+      "definition": "Une erreur humaine peut introduire un défaut (fault/bug) dans un artefact. Lors de l’exécution, ce défaut peut provoquer une défaillance (failure), c’est-à-dire un comportement observable incorrect.",
+      "exemple": "Erreur : mauvaise compréhension d’une règle métier. Défaut : condition codée incorrecte. Défaillance : montant de remise faux en production.",
+      "a_retenir": [
+        "Défaut = imperfection dans l’artefact",
+        "Défaillance = comportement observable incorrect"
+      ],
+      "keywords": ["erreur", "défaut", "bug", "défaillance", "failure"],
       "image": null
     },
     {
       "id": "003",
+      "chapter": 1,
+      "section": "5) Artefacts : testware et traçabilité",
+      "level": "K1",
       "notion": "Cas de test",
-      "definition": "Ensemble de préconditions, d’entrées, d’actions (si applicable), de résultats attendus et de postconditions, conçu pour vérifier un objectif de test.",
-      "exemple": "Précondition : utilisateur connecté. Action : modifier l’email. Résultat attendu : email mis à jour + message de confirmation + email de vérification envoyé.",
+      "question": "Qu’est-ce qu’un cas de test ?",
+      "definition": "Un cas de test définit des préconditions, des entrées, des actions (si applicable), des résultats attendus et des postconditions, afin de vérifier un objectif de test.",
+      "exemple": "Précondition : utilisateur connecté. Action : changer l’email. Attendu : email modifié + message OK + email de confirmation envoyé.",
+      "a_retenir": [
+        "Le résultat attendu est obligatoire",
+        "Le cas de test vérifie un objectif précis"
+      ],
+      "keywords": ["cas de test", "résultat attendu", "précondition", "postcondition"],
+      "image": null
+    },
+
+    {
+      "id": "004",
+      "chapter": 1,
+      "section": "1) Le test logiciel : définition et finalité",
+      "level": "K2",
+      "notion": "Ce que le test n’est pas",
+      "question": "Quelles confusions fréquentes faut-il éviter sur le test ?",
+      "definition": "Le test n’est pas uniquement “chercher des bugs”, ni une phase finale. Ce n’est pas non plus du débogage. Le test est un processus continu qui apporte de l’information et du contrôle sur les risques.",
+      "exemple": "Dire “on testera à la fin” = risque de découverte tardive. Dire “tester = corriger” = confusion avec le debug.",
+      "a_retenir": [
+        "Test ≠ debug",
+        "Test ≠ activité unique en fin de projet"
+      ],
+      "keywords": ["test", "mythes", "debug", "phase finale"],
+      "image": null
+    },
+    {
+      "id": "005",
+      "chapter": 1,
+      "section": "1) Le test logiciel : définition et finalité",
+      "level": "K1",
+      "notion": "Objectifs du test",
+      "question": "Quels sont les objectifs business du test ?",
+      "definition": "Réduire le risque, fournir des informations pour la décision (go/no-go), augmenter la confiance, vérifier la conformité, et prévenir les défauts (via retours rapides et amélioration du process).",
+      "exemple": "Avant une mise en prod, les résultats de tests servent à décider : déployer, retarder, ou réduire le scope.",
+      "a_retenir": [
+        "Décision = un output majeur du test",
+        "Prévention = feedback + amélioration continue"
+      ],
+      "keywords": ["risque", "confiance", "décision", "conformité", "prévention"],
+      "image": null
+    },
+    {
+      "id": "006",
+      "chapter": 1,
+      "section": "1) Le test logiciel : définition et finalité",
+      "level": "K1",
+      "notion": "Test statique vs test dynamique",
+      "question": "Quelle différence entre test statique et test dynamique ?",
+      "definition": "Le test statique évalue des artefacts sans exécuter le code (revues, analyses). Le test dynamique exécute le logiciel pour observer son comportement.",
+      "exemple": "Statique : revue d’une user story pour détecter ambiguïtés. Dynamique : exécution d’un test API sur un endpoint.",
+      "a_retenir": [
+        "Statique = sans exécution",
+        "Dynamique = avec exécution"
+      ],
+      "keywords": ["statique", "dynamique", "revue", "exécution"],
+      "image": null
+    },
+    {
+      "id": "007",
+      "chapter": 1,
+      "section": "1) Le test logiciel : définition et finalité",
+      "level": "K1",
+      "notion": "Vérification vs Validation",
+      "question": "Différence entre vérification et validation ?",
+      "definition": "La vérification répond à “construit-on le produit correctement ?” (conformité aux spécifications). La validation répond à “construit-on le bon produit ?” (besoin utilisateur).",
+      "exemple": "Vérification : format email conforme. Validation : le parcours de changement d’email est compréhensible et utile pour l’utilisateur.",
+      "a_retenir": [
+        "Vérification = conformité",
+        "Validation = adéquation au besoin"
+      ],
+      "keywords": ["vérification", "validation", "spécification", "besoin"],
+      "image": null
+    },
+    {
+      "id": "008",
+      "chapter": 1,
+      "section": "1) Le test logiciel : définition et finalité",
+      "level": "K1",
+      "notion": "Tester vs déboguer",
+      "question": "Comment enchaîner test et debug, et qui fait quoi ?",
+      "definition": "Tester vise à détecter et rapporter des défauts. Déboguer (debug) vise à localiser, analyser et corriger la cause dans le code. Souvent : test → signalement → debug → correctif → re-test.",
+      "exemple": "Le test détecte un crash sur iOS. Le dev reproduit, identifie la ligne fautive, corrige, puis le testeur revalide.",
+      "a_retenir": [
+        "Test = détection/constat",
+        "Debug = analyse/correction"
+      ],
+      "keywords": ["test", "debug", "responsabilités", "retest"],
+      "image": null
+    },
+
+    {
+      "id": "009",
+      "chapter": 1,
+      "section": "2) Pourquoi tester : valeur business et qualité",
+      "level": "K2",
+      "notion": "Pourquoi tester est indispensable",
+      "question": "Quel est l’impact business de l’absence de test ?",
+      "definition": "Sans test, le risque de défauts en production augmente : coûts de correction plus élevés, retards, perte de confiance, incidents, non-conformité. Le test agit comme un levier de maîtrise du risque et de réduction du coût global.",
+      "exemple": "Un bug de paiement en prod peut coûter en support, remboursements, image de marque, et churn clients.",
+      "a_retenir": [
+        "Plus un défaut est détecté tard, plus il coûte cher",
+        "Le test protège délai, coût, réputation"
+      ],
+      "keywords": ["business", "risque", "coût", "qualité", "délai"],
+      "image": null
+    },
+    {
+      "id": "010",
+      "chapter": 1,
+      "section": "2) Pourquoi tester : valeur business et qualité",
+      "level": "K2",
+      "notion": "Test vs QA vs QC",
+      "question": "Différence entre test, assurance qualité (QA) et contrôle qualité (QC) ?",
+      "definition": "QA (préventif) vise à améliorer le processus pour éviter les défauts. QC (détectif) vise à détecter les problèmes dans le produit. Le test est une activité de QC (principalement) mais alimente aussi la QA via feedback et métriques.",
+      "exemple": "QA : définir standards de revue et DoD. QC/test : exécuter des tests et reporter anomalies + résultats.",
+      "a_retenir": [
+        "QA = process, prévention",
+        "QC/Test = produit, détection"
+      ],
+      "keywords": ["QA", "QC", "prévention", "détection", "process"],
+      "image": null
+    },
+    {
+      "id": "011",
+      "chapter": 1,
+      "section": "2) Pourquoi tester : valeur business et qualité",
+      "level": "K2",
+      "notion": "Cause racine et amélioration continue",
+      "question": "Pourquoi analyser la cause racine d’un défaut ?",
+      "definition": "La cause racine permet d’éviter la réintroduction de défauts similaires. En traitant la cause (process, compétence, outil, exigence), on améliore durablement la qualité et la vélocité.",
+      "exemple": "Si plusieurs bugs viennent d’exigences ambiguës, on renforce la revue des user stories au lieu d’ajouter seulement des tests.",
+      "a_retenir": [
+        "Corriger le symptôme ≠ corriger le système",
+        "La cause racine améliore le process"
+      ],
+      "keywords": ["cause racine", "RCA", "amélioration continue", "process"],
+      "image": null
+    },
+
+    {
+      "id": "012",
+      "chapter": 1,
+      "section": "3) Les 7 principes du test",
+      "level": "K1",
+      "notion": "Principe 1 — Le test révèle des défauts",
+      "question": "Que prouve le test ?",
+      "definition": "Le test peut démontrer la présence de défauts, mais ne peut pas prouver leur absence. Il réduit l’incertitude et augmente la confiance, sans garantir le zéro défaut.",
+      "exemple": "100 tests passés ≠ aucune anomalie possible : un scénario non testé peut encore échouer.",
+      "a_retenir": [
+        "Présence prouvable, absence non prouvable",
+        "Objectif : réduire l’incertitude"
+      ],
+      "keywords": ["principe", "défauts", "confiance", "incertitude"],
+      "image": null
+    },
+    {
+      "id": "013",
+      "chapter": 1,
+      "section": "3) Les 7 principes du test",
+      "level": "K1",
+      "notion": "Principe 2 — Test exhaustif impossible",
+      "question": "Pourquoi ne peut-on pas tout tester ?",
+      "definition": "Les combinaisons d’entrées, états, environnements et parcours explosent. On doit prioriser selon le risque, la criticité et la valeur métier.",
+      "exemple": "Tester toutes les permutations de champs d’un formulaire est infaisable : on cible les cas limites, les règles métier critiques et les erreurs probables.",
+      "a_retenir": [
+        "Priorisation basée risque/valeur",
+        "Couverture parfaite est irréaliste"
+      ],
+      "keywords": ["exhaustif", "priorisation", "risque", "criticité"],
+      "image": null
+    },
+    {
+      "id": "014",
+      "chapter": 1,
+      "section": "3) Les 7 principes du test",
+      "level": "K1",
+      "notion": "Principe 3 — Tester tôt",
+      "question": "Pourquoi tester le plus tôt possible ?",
+      "definition": "Détecter tôt réduit le coût de correction, limite les effets domino et permet un feedback rapide. Inclut tests statiques, revues, et tests d’intégration précoces.",
+      "exemple": "Revue d’exigences avant dev : on élimine ambiguïtés avant d’implémenter des erreurs coûteuses.",
+      "a_retenir": [
+        "Plus tôt = moins cher",
+        "Feedback rapide = meilleur pilotage"
+      ],
+      "keywords": ["shift-left", "tester tôt", "feedback", "coût"],
+      "image": null
+    },
+    {
+      "id": "015",
+      "chapter": 1,
+      "section": "3) Les 7 principes du test",
+      "level": "K1",
+      "notion": "Principe 4 — Regroupement des défauts (Pareto)",
+      "question": "Que signifie le regroupement des défauts ?",
+      "definition": "Un petit nombre de modules concentre souvent la majorité des défauts. Identifier ces zones permet d’optimiser l’effort de test et de mitigation.",
+      "exemple": "Les incidents se concentrent sur la facturation : on augmente couverture et revues sur ce périmètre critique.",
+      "a_retenir": [
+        "Focus sur zones à risques",
+        "Optimisation effort/couverture"
+      ],
+      "keywords": ["Pareto", "regroupement", "zones à risque", "modules"],
+      "image": null
+    },
+    {
+      "id": "016",
+      "chapter": 1,
+      "section": "3) Les 7 principes du test",
+      "level": "K1",
+      "notion": "Principe 5 — Usure des tests",
+      "question": "Pourquoi faut-il renouveler les tests ?",
+      "definition": "Répéter les mêmes tests finit par détecter moins de nouveaux défauts. Les tests doivent évoluer avec le produit, les risques, et les apprentissages.",
+      "exemple": "Après stabilisation login, on ajoute des tests MFA, sécurité et cas limites plutôt que de rejouer uniquement les scénarios basiques.",
+      "a_retenir": [
+        "Les tests vieillissent",
+        "Adapter selon évolutions/risques"
+      ],
+      "keywords": ["usure", "pesticide paradox", "maintenance tests"],
+      "image": null
+    },
+    {
+      "id": "017",
+      "chapter": 1,
+      "section": "3) Les 7 principes du test",
+      "level": "K1",
+      "notion": "Principe 6 — Le test dépend du contexte",
+      "question": "Pourquoi le test doit-il s’adapter au contexte ?",
+      "definition": "Les techniques, niveaux et priorités dépendent du domaine, de la criticité, des contraintes (temps, coût), du cycle de vie et des risques.",
+      "exemple": "Logiciel médical : exigences de traçabilité et conformité fortes. App marketing : time-to-market prime, tests exploratoires ciblés.",
+      "a_retenir": [
+        "Même méthode ≠ tous contextes",
+        "Risques & contraintes guident la stratégie"
+      ],
+      "keywords": ["contexte", "criticité", "stratégie", "risque"],
+      "image": null
+    },
+    {
+      "id": "018",
+      "chapter": 1,
+      "section": "3) Les 7 principes du test",
+      "level": "K1",
+      "notion": "Principe 7 — “Zéro défaut” ≠ succès",
+      "question": "Pourquoi un produit sans défaut n’est pas forcément un succès ?",
+      "definition": "Un produit peut être techniquement correct mais inutile, non utilisé, ou non aligné avec la valeur attendue. Le succès se mesure à l’usage, la valeur, et l’adéquation au besoin.",
+      "exemple": "Une fonctionnalité “parfaite” mais trop complexe est abandonnée : valeur utilisateur faible malgré qualité technique.",
+      "a_retenir": [
+        "Succès = valeur + usage",
+        "Qualité technique seule insuffisante"
+      ],
+      "keywords": ["valeur", "usage", "adéquation", "succès produit"],
+      "image": null
+    },
+
+    {
+      "id": "019",
+      "chapter": 1,
+      "section": "4) Activités de test et process",
+      "level": "K1",
+      "notion": "Activités typiques de test",
+      "question": "Quelles sont les activités du process de test de bout en bout ?",
+      "definition": "Planification, pilotage/contrôle, analyse, conception, implémentation, exécution, clôture. Ces activités sont adaptées au contexte et au cycle de vie.",
+      "exemple": "Sprint : planifier (stratégie), analyser user story, concevoir cas, automatiser, exécuter, reporter, clôturer via bilan.",
+      "a_retenir": [
+        "Process complet, pas juste exécution",
+        "Adaptation permanente au contexte"
+      ],
+      "keywords": ["planification", "analyse", "conception", "exécution", "clôture"],
+      "image": null
+    },
+    {
+      "id": "020",
+      "chapter": 1,
+      "section": "4) Activités de test et process",
+      "level": "K2",
+      "notion": "Adapter le process au contexte",
+      "question": "Quels facteurs influencent l’adaptation du test process ?",
+      "definition": "Risques, contraintes, domaine, criticité, organisation, cycle de vie, maturité outillage, compétences. L’objectif est d’optimiser l’impact qualité pour un coût donné.",
+      "exemple": "Timebox court : focus tests critiques + automatisation smoke. Produit régulé : ajout traçabilité et revues formelles.",
+      "a_retenir": [
+        "Stratégie pilotée par risques",
+        "Pas de recette universelle"
+      ],
+      "keywords": ["adaptation", "risque", "contraintes", "cycle de vie"],
+      "image": null
+    },
+
+    {
+      "id": "021",
+      "chapter": 1,
+      "section": "5) Artefacts : testware et traçabilité",
+      "level": "K1",
+      "notion": "Testware",
+      "question": "Qu’appelle-t-on testware ?",
+      "definition": "Ensemble des artefacts produits pour le test : plan de test, cas, suites, données, scripts, logs, rapports, bilan, etc.",
+      "exemple": "Une suite de non-régression automatisée + ses données + les rapports d’exécution = testware.",
+      "a_retenir": [
+        "Testware = livrables de test",
+        "Inclut données, scripts, rapports"
+      ],
+      "keywords": ["testware", "artefacts", "plan de test", "rapport"],
+      "image": null
+    },
+    {
+      "id": "022",
+      "chapter": 1,
+      "section": "5) Artefacts : testware et traçabilité",
+      "level": "K2",
+      "notion": "Traçabilité",
+      "question": "À quoi sert la traçabilité en test ?",
+      "definition": "Relier base de test (exigences/user stories/règles), conditions et cas de test, résultats et défauts. Sert à la couverture, l’analyse d’impact, l’auditabilité et le pilotage.",
+      "exemple": "Une exigence “reset password” est liée à 5 cas de test; si elle change, on sait quels tests impacter.",
+      "a_retenir": [
+        "Couverture + impact analysis",
+        "Auditabilité + pilotage"
+      ],
+      "keywords": ["traçabilité", "couverture", "impact analysis", "audit"],
+      "image": null
+    },
+
+    {
+      "id": "023",
+      "chapter": 1,
+      "section": "6) Rôles et responsabilités",
+      "level": "K1",
+      "notion": "Rôles et interfaces",
+      "question": "Qui fait quoi dans un dispositif de test ?",
+      "definition": "Selon l’organisation : test management (stratégie/pilotage), testeur/QA (analyse, conception, exécution, reporting), dev/PO/BA impliqués (approche whole team). Communication et arbitrages (go/no-go) sont clés.",
+      "exemple": "Go/no-go release : test management présente risques + qualité; PO arbitre; dev corrige; QA revalide.",
+      "a_retenir": [
+        "Whole team : qualité partagée",
+        "Décision release = interface critique"
+      ],
+      "keywords": ["rôles", "test management", "whole team", "go/no-go"],
+      "image": null
+    },
+    {
+      "id": "024",
+      "chapter": 1,
+      "section": "7) Compétences et bonnes pratiques",
+      "level": "K2",
+      "notion": "Compétences & bonnes pratiques",
+      "question": "Quelles compétences clés et pratiques recommandées ?",
+      "definition": "Compétences : esprit critique, curiosité, rigueur, communication, compréhension métier, technique. Bonnes pratiques : collaboration cross-fonctionnelle, feedback rapide, focus risque & valeur, amélioration continue.",
+      "exemple": "Pairing QA/dev sur une story critique : mieux comprendre le risque, écrire de meilleurs tests, réduire rework.",
+      "a_retenir": [
+        "Rigueur + communication = impact",
+        "Focus risque/valeur en continu"
+      ],
+      "keywords": ["compétences", "communication", "risque", "valeur", "collaboration"],
+      "image": null
+    },
+    {
+      "id": "025",
+      "chapter": 1,
+      "section": "7) Compétences et bonnes pratiques",
+      "level": "K2",
+      "notion": "Indépendance du test",
+      "question": "Quels niveaux d’indépendance et quels trade-offs ?",
+      "definition": "Niveaux d’indépendance variables (auto-test dev → testeurs dédiés → équipe indépendante). Bénéfices : regard neuf, biais réduit. Limites : silos, frictions, délais. L’équilibre dépend du contexte.",
+      "exemple": "Produit critique : équipe indépendante peut renforcer objectivité. Produit agile : whole team limite les silos via collaboration étroite.",
+      "a_retenir": [
+        "Plus d’indépendance = plus d’objectivité potentielle",
+        "Mais risque de silos si mal orchestré"
+      ],
+      "keywords": ["indépendance", "biais", "silos", "whole team"],
       "image": null
     }
   ]
