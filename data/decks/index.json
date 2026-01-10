@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "decks": [
+    {
+      "id": "istqb-fl-fr",
+      "title": "ISTQB Foundation (FR)",
+      "file": "istqb-fl-fr.json"
+    }
+  ]
+}
