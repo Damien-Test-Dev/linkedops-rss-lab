@@ -1,0 +1,28 @@
+{
+  "id": "istqb-fl-fr",
+  "title": "ISTQB Foundation (FR)",
+  "description": "Cartes de révision — notions ISTQB Foundation Level (FR).",
+  "cards": [
+    {
+      "id": "001",
+      "notion": "Test",
+      "definition": "Processus consistant à exécuter un programme ou un composant avec l’intention de trouver des défauts et de vérifier qu’il satisfait des exigences spécifiées.",
+      "exemple": "Exécuter un scénario utilisateur sur une application mobile pour vérifier qu’un paiement aboutit et que les erreurs sont correctement gérées.",
+      "image": null
+    },
+    {
+      "id": "002",
+      "notion": "Défaut vs Défaillance",
+      "definition": "Un défaut (fault/defect/bug) est une imperfection dans un artefact (code, spec, test). Une défaillance (failure) est le comportement observé incorrect lorsque le logiciel s’exécute.",
+      "exemple": "Défaut : une condition '>=’ codée au lieu de '>'. Défaillance : le système accepte un âge invalide et laisse créer un compte.",
+      "image": null
+    },
+    {
+      "id": "003",
+      "notion": "Cas de test",
+      "definition": "Ensemble de préconditions, d’entrées, d’actions (si applicable), de résultats attendus et de postconditions, conçu pour vérifier un objectif de test.",
+      "exemple": "Précondition : utilisateur connecté. Action : modifier l’email. Résultat attendu : email mis à jour + message de confirmation + email de vérification envoyé.",
+      "image": null
+    }
+  ]
+}
