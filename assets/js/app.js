@@ -2,16 +2,19 @@
  * App de révision (statique) — refonte
  * Source unique : data/decks/index.json -> deck.json -> cards[]
  *
- * Affichage carte (simple) :
- * - notion
- * - explication (fallback: definition si l'ancien deck est encore en place)
- * - exemple
- * - image fixe (branding) si la carte n'a pas d'image propre (optionnel)
+ * + Contrôle de complétude (coverage):
+ * - Pour un deck id = X, le JS tente de charger data/decks/X.ref.json
+ * - ref.expected[] = liste des clés attendues (ex: LO ISTQB "FL-1.1.1")
+ * - matching par défaut:
+ *    - si expected ressemble à des LO (commence par "FL-"), on match sur card.lo
+ *    - sinon, on match sur card.id
  *
  * UI :
  * - sélection deck
  * - suivant
  * - aléatoire
+ * - badge par carte : ✅ référencée / ⚠️ hors ref / ⛔ pas de ref
+ * - status : Couverture X/Y (+ manquants)
  */
 
 // Base URLs robustes (GitHub Pages friendly)
@@ -71,8 +74,8 @@ async function fetchJSON(urlObj) {
 /**
  * Normalize deck to a minimal internal model.
  * Accepts both:
- * - new format: { cards: [{ notion, explication, exemple, ...}] }
- * - old format: { cards: [{ notion, definition, exemple, ...}] } (compat)
+ * - new format: { cards: [{ notion, explication, exemple, lo? }] }
+ * - compat: old: { cards: [{ notion, definition, exemple }] }
  */
 function normalizeDeck(rawDeck, fallbackId = "deck") {
   const id = safeText(rawDeck?.id) !== "—" ? String(rawDeck.id) : fallbackId;
@@ -92,12 +95,17 @@ function normalizeDeck(rawDeck, fallbackId = "deck") {
 
     const exemple = safeText(c?.exemple);
 
+    // Clé de complétude (optionnelle) : LO ISTQB (recommandé)
+    const lo = safeText(c?.lo);
+    const loOrNull = lo !== "—" ? lo : null;
+
     // image optionnelle au niveau carte
     const imageSrc = c?.image?.src ? String(c.image.src).trim() : "";
     const imageAlt = c?.image?.alt ? String(c.image.alt).trim() : "";
 
     return {
       id: cardId,
+      lo: loOrNull,
       notion,
       explication,
       exemple,
@@ -118,7 +126,75 @@ function resolveCardImage(card) {
   return DEFAULT_CARD_IMAGE;
 }
 
-function cardHTML(deck, card, positionText) {
+/**
+ * Coverage model (chargé depuis X.ref.json)
+ */
+function normalizeRef(rawRef) {
+  const expected = Array.isArray(rawRef?.expected) ? rawRef.expected.map(String) : [];
+  const expectedClean = expected.map((x) => x.trim()).filter(Boolean);
+
+  // Heuristique : si au moins 1 entrée ressemble à un LO ISTQB, on match sur card.lo
+  const matchMode = expectedClean.some((x) => x.startsWith("FL-")) ? "lo" : "id";
+
+  return {
+    id: safeText(rawRef?.id),
+    chapterNumber: rawRef?.chapterNumber ?? null,
+    chapterName: safeText(rawRef?.chapterName),
+    expected: expectedClean,
+    expectedSet: new Set(expectedClean),
+    matchMode
+  };
+}
+
+function computeCoverage(deck, ref) {
+  if (!ref || ref.expected.length === 0) {
+    return {
+      hasRef: false,
+      matchMode: null,
+      expectedTotal: 0,
+      coveredCount: 0,
+      missing: [],
+      cardIsReferenced: () => false
+    };
+  }
+
+  const expectedSet = ref.expectedSet;
+
+  const cardKey = (card) => {
+    if (ref.matchMode === "lo") return card?.lo || "";
+    return card?.id || "";
+  };
+
+  const presentKeys = new Set(
+    (deck.cards || [])
+      .map(cardKey)
+      .map((x) => String(x).trim())
+      .filter(Boolean)
+  );
+
+  const missing = ref.expected.filter((k) => !presentKeys.has(k));
+  const coveredCount = ref.expected.length - missing.length;
+
+  return {
+    hasRef: true,
+    matchMode: ref.matchMode,
+    expectedTotal: ref.expected.length,
+    coveredCount,
+    missing,
+    cardIsReferenced: (card) => {
+      const k = String(cardKey(card) || "").trim();
+      return k ? expectedSet.has(k) : false;
+    }
+  };
+}
+
+function coverageBadgeText(coverage, card) {
+  if (!coverage.hasRef) return "⛔ REF absent";
+  const ok = coverage.cardIsReferenced(card);
+  return ok ? "✅ Référencée" : "⚠️ Hors ref";
+}
+
+function cardHTML(deck, card, positionText, coverage) {
   const deckTitle = escapeHTML(safeText(deck?.title));
   const cardId = escapeHTML(safeText(card?.id));
   const notion = escapeHTML(safeText(card?.notion));
@@ -132,9 +208,16 @@ function cardHTML(deck, card, positionText) {
   const imgSrc = escapeHTML(img.src);
   const imgAlt = escapeHTML(img.alt);
 
+  const badge = escapeHTML(coverageBadgeText(coverage, card));
+
+  // Si matchMode = lo, on montre le lo (utile pour audit, sans polluer)
+  const loPart = coverage.hasRef && coverage.matchMode === "lo" && card?.lo
+    ? ` • LO ${escapeHTML(card.lo)}`
+    : "";
+
   return `
     <article class="card">
-      <div class="card__badge">${deckTitle} • ID ${cardId} • ${pos}</div>
+      <div class="card__badge">${deckTitle} • ID ${cardId} • ${pos} • ${badge}${loPart}</div>
 
       <h2 class="card__title">${notion}</h2>
 
@@ -157,7 +240,7 @@ function cardHTML(deck, card, positionText) {
   `;
 }
 
-function renderSingleCard(deck, cardIndex) {
+function renderSingleCard(deck, cardIndex, coverage) {
   const container = $("cards");
   if (!container) return;
 
@@ -179,9 +262,23 @@ function renderSingleCard(deck, cardIndex) {
   const card = deck.cards[i];
 
   const posText = `${i + 1}/${total}`;
-  container.innerHTML = cardHTML(deck, card, posText);
+  container.innerHTML = cardHTML(deck, card, posText, coverage);
 
-  setStatus(`Deck: ${deck.title} — carte ${posText}`);
+  if (!coverage.hasRef) {
+    setStatus(`Deck: ${deck.title} — carte ${posText} • Couverture: (ref absente)`, true);
+  } else {
+    const missingCount = coverage.missing.length;
+    const coverageText = `Couverture: ${coverage.coveredCount}/${coverage.expectedTotal}`;
+    const hint =
+      coverage.matchMode === "lo" && coverage.coveredCount === 0
+        ? " — Ajoute le champ 'lo' aux cartes pour activer le matching."
+        : missingCount > 0
+          ? ` — Manquants: ${missingCount}`
+          : " ✅";
+
+    setStatus(`Deck: ${deck.title} — carte ${posText} • ${coverageText}${hint}`, missingCount > 0);
+  }
+
   setControlsEnabled(true);
 }
 
@@ -230,6 +327,19 @@ async function loadDeckFile(deckMeta) {
   return normalizeDeck(rawDeck, deckMeta.id);
 }
 
+async function tryLoadDeckRef(deckId) {
+  // Convention: data/decks/<deckId>.ref.json
+  const refUrl = new URL(`${deckId}.ref.json`, DECKS_DIR);
+  try {
+    const rawRef = await fetchJSON(refUrl);
+    return normalizeRef(rawRef);
+  } catch (err) {
+    // Ref absente = OK (mode sans contrôle)
+    console.warn(`Ref file not found for deck "${deckId}" (${refUrl}):`, err);
+    return null;
+  }
+}
+
 function fillDeckSelect(options, selectedId) {
   const select = $("deck-select");
   if (!select) return;
@@ -256,13 +366,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentDeck = null;
   let currentIndex = 0;
 
+  // Coverage state
+  let currentRef = null;
+  let currentCoverage = {
+    hasRef: false,
+    matchMode: null,
+    expectedTotal: 0,
+    coveredCount: 0,
+    missing: [],
+    cardIsReferenced: () => false
+  };
+
   async function loadDeckById(deckId) {
     const meta = decksMeta.find((d) => d.id === deckId) || decksMeta[0];
 
     currentDeck = await loadDeckFile(meta);
-    currentIndex = Math.max(0, Math.min(loadSavedIndex(currentDeck.id), currentDeck.cards.length - 1));
 
-    renderSingleCard(currentDeck, currentIndex);
+    // Charger la ref (si présente)
+    currentRef = await tryLoadDeckRef(currentDeck.id);
+    currentCoverage = computeCoverage(currentDeck, currentRef);
+
+    // Debug utile (sans UI intrusive)
+    if (currentCoverage.hasRef && currentCoverage.missing.length > 0) {
+      console.warn(
+        `[COVERAGE] Deck ${currentDeck.id}: missing ${currentCoverage.missing.length}/${currentCoverage.expectedTotal}`,
+        currentCoverage.missing
+      );
+    }
+
+    currentIndex = Math.max(0, Math.min(loadSavedIndex(currentDeck.id), currentDeck.cards.length - 1));
+    renderSingleCard(currentDeck, currentIndex, currentCoverage);
   }
 
   if (deckSelect) {
@@ -285,7 +418,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!currentDeck || currentDeck.cards.length === 0) return;
       currentIndex = (currentIndex + 1) % currentDeck.cards.length;
       saveIndex(currentDeck.id, currentIndex);
-      renderSingleCard(currentDeck, currentIndex);
+      renderSingleCard(currentDeck, currentIndex, currentCoverage);
     });
   }
 
@@ -294,14 +427,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!currentDeck || currentDeck.cards.length === 0) return;
 
       const n = currentDeck.cards.length;
-      if (n === 1) return renderSingleCard(currentDeck, 0);
+      if (n === 1) return renderSingleCard(currentDeck, 0, currentCoverage);
 
       let next = currentIndex;
       while (next === currentIndex) next = Math.floor(Math.random() * n);
 
       currentIndex = next;
       saveIndex(currentDeck.id, currentIndex);
-      renderSingleCard(currentDeck, currentIndex);
+      renderSingleCard(currentDeck, currentIndex, currentCoverage);
     });
   }
 
