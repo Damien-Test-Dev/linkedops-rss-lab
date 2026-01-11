@@ -9,14 +9,12 @@
 
 <body>
   <main class="page">
-    <!-- Header / Branding -->
     <header class="header">
       <h1>Cartes de révision</h1>
       <p class="subtitle">
         Application statique (GitHub Pages), pensée mobile-first : révise partout, tout le temps.
       </p>
 
-      <!-- Contrôles (deck selection) -->
       <section class="toolbar" aria-label="Contrôles de révision">
         <div class="toolbar__group">
           <label class="toolbar__label" for="deck-select">Deck</label>
@@ -35,15 +33,12 @@
         </div>
       </section>
 
-      <!-- Status / Observabilité -->
       <p class="status" id="status" aria-live="polite">
         Initialisation…
       </p>
     </header>
 
-    <!-- Zone de rendu (JS injecte ici les cartes) -->
     <section class="grid" id="cards" aria-label="Cartes">
-      <!-- À ce stade, le JS injecte le contenu ici -->
       <noscript>
         <article class="card">
           <h2 class="card__title">JavaScript requis</h2>
@@ -62,6 +57,7 @@
     </footer>
   </main>
 
-  <script type="module" src="./assets/js/app.js"></script>
+  <!-- IMPORTANT: cache-buster pour forcer GitHub Pages à recharger le JS -->
+  <script type="module" src="./assets/js/app.js?v=20260111-1"></script>
 </body>
 </html>
