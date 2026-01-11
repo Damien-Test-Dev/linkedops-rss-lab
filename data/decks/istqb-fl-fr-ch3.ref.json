@@ -1,0 +1,51 @@
+{
+  "id": "istqb-fl-fr-ch3-ref",
+  "chapterNumber": 3,
+  "chapterName": "Test statique",
+  "keywords": [
+    "anomalie",
+    "test dynamique",
+    "revue formelle",
+    "revue informelle",
+    "inspection",
+    "revue",
+    "analyse statique",
+    "test statique",
+    "revue technique",
+    "relecture technique"
+  ],
+  "learningObjectives": [
+    { "lo": "FL-3.1.1", "level": "K1", "label": "Reconnaître les types de produits examinables par les techniques de test statique" },
+    { "lo": "FL-3.1.2", "level": "K2", "label": "Expliquer la valeur du test statique" },
+    { "lo": "FL-3.1.3", "level": "K2", "label": "Comparer / opposer tests statiques et tests dynamiques" },
+
+    { "lo": "FL-3.2.1", "level": "K1", "label": "Identifier les avantages d’un feedback précoce et fréquent des parties prenantes" },
+    { "lo": "FL-3.2.2", "level": "K2", "label": "Résumer les activités du processus de revue" },
+    { "lo": "FL-3.2.3", "level": "K1", "label": "Rappeler les responsabilités des rôles principaux en revue" },
+    { "lo": "FL-3.2.4", "level": "K2", "label": "Comparer / opposer les types de revues" },
+    { "lo": "FL-3.2.5", "level": "K1", "label": "Rappeler les facteurs de réussite d’une revue" }
+  ],
+  "outline": [
+    { "section": "3.1", "title": "Bases du test statique", "children": ["3.1.1", "3.1.2", "3.1.3"] },
+    { "section": "3.1.1", "title": "Produits d’activités examinables par le test statique" },
+    { "section": "3.1.2", "title": "Valeur du test statique" },
+    { "section": "3.1.3", "title": "Différences entre le test statique et le test dynamique" },
+
+    { "section": "3.2", "title": "Processus de feedback et de revue", "children": ["3.2.1", "3.2.2", "3.2.3", "3.2.4", "3.2.5"] },
+    { "section": "3.2.1", "title": "Bénéfices d’un feedback précoce et fréquent des parties prenantes" },
+    { "section": "3.2.2", "title": "Activités du processus de revue" },
+    { "section": "3.2.3", "title": "Rôles et responsabilités dans les revues" },
+    { "section": "3.2.4", "title": "Types de revues" },
+    { "section": "3.2.5", "title": "Facteurs de réussite des revues" }
+  ],
+  "expected": [
+    "FL-3.1.1",
+    "FL-3.1.2",
+    "FL-3.1.3",
+    "FL-3.2.1",
+    "FL-3.2.2",
+    "FL-3.2.3",
+    "FL-3.2.4",
+    "FL-3.2.5"
+  ]
+}
