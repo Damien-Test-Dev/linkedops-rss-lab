@@ -4,144 +4,168 @@
   "cards": [
     {
       "id": "001",
+      "lo": "FL-1.1.1",
       "notion": "Test logiciel : définition",
       "explication": "Le test logiciel est un ensemble d’activités visant à découvrir des défauts et à fournir des informations sur la qualité du produit. Le test réduit l’incertitude et supporte la décision, sans prouver l’absence de défauts.",
       "exemple": "Exécuter un parcours de paiement et vérifier le résultat attendu (acceptation/refus, messages cohérents, mise à jour du statut)."
     },
     {
       "id": "002",
+      "lo": "FL-1.1.1",
       "notion": "Objectifs du test",
       "explication": "Les objectifs habituels du test incluent : réduire le risque, fournir des informations pour la prise de décision (go/no-go), augmenter la confiance dans le niveau de qualité, vérifier la conformité (exigences, réglementations), et contribuer à la prévention des défauts via un feedback précoce.",
       "exemple": "Avant une mise en production, les résultats des tests de non-régression aident à décider de déployer, de retarder, ou de réduire le périmètre."
     },
     {
       "id": "003",
+      "lo": "FL-1.1.1",
       "notion": "Test statique vs test dynamique",
       "explication": "Le test statique évalue des artefacts (exigences, code, modèles) sans exécuter le logiciel, via revues et analyses. Le test dynamique exécute le logiciel pour observer son comportement et comparer aux résultats attendus.",
       "exemple": "Statique : revue d’une user story pour détecter ambiguïtés. Dynamique : exécution d’un test API sur un endpoint."
     },
     {
       "id": "004",
+      "lo": "FL-1.1.1",
       "notion": "Vérification vs validation",
       "explication": "La vérification répond à « construit-on le produit correctement ? » (conformité aux spécifications). La validation répond à « construit-on le bon produit ? » (adéquation au besoin utilisateur).",
       "exemple": "Vérification : format email conforme. Validation : le parcours de changement d’email est compréhensible et utile pour l’utilisateur."
     },
     {
       "id": "005",
+      "lo": "FL-1.1.2",
       "notion": "Tester vs déboguer",
       "explication": "Tester consiste à détecter et rapporter des défauts (constat). Déboguer consiste à localiser, analyser et corriger la cause dans le code. Enchaînement typique : test → anomalie → debug → correctif → re-test.",
       "exemple": "Le test détecte un crash sur iOS. Le développeur reproduit, identifie la ligne fautive, corrige, puis la correction est re-testée."
     },
     {
       "id": "006",
+      "lo": "FL-1.2.1",
       "notion": "Pourquoi tester : valeur business",
       "explication": "Le test est indispensable car il diminue le risque de défauts en production, limite les coûts de correction, protège les délais, la réputation et la satisfaction utilisateur. Plus un défaut est détecté tard, plus son coût global augmente.",
       "exemple": "Un bug de paiement en production génère support, remboursements, perte de confiance et churn, bien au-delà du coût initial de correction."
     },
     {
       "id": "007",
+      "lo": "FL-1.2.2",
       "notion": "Test vs assurance qualité (QA) vs contrôle qualité (QC)",
       "explication": "La QA vise à prévenir les défauts en améliorant les processus (approche préventive). Le QC vise à détecter les problèmes dans le produit (approche détective). Le test fait partie du QC, et alimente la QA via feedback et métriques.",
       "exemple": "QA : définir des standards et une Definition of Done. QC/Test : exécuter des tests et produire des rapports de résultats/anomalies."
     },
     {
       "id": "008",
+      "lo": "FL-1.2.3",
       "notion": "Erreur → Défaut → Défaillance",
       "explication": "Une erreur humaine peut introduire un défaut (fault/bug) dans un artefact. Lors de l’exécution, ce défaut peut provoquer une défaillance (failure), c’est-à-dire un comportement observable incorrect.",
       "exemple": "Erreur : mauvaise compréhension d’une règle métier. Défaut : condition codée incorrecte. Défaillance : remise calculée fausse en production."
     },
     {
       "id": "009",
+      "lo": "FL-1.2.3",
       "notion": "Cause racine",
       "explication": "L’analyse de cause racine vise à identifier l’origine systémique d’un défaut pour éviter sa réapparition. Corriger uniquement le symptôme réduit le problème à court terme ; traiter la cause améliore durablement qualité et delivery.",
       "exemple": "Si de nombreux défauts proviennent d’exigences ambiguës, on renforce la revue des exigences plutôt que d’ajouter uniquement des tests."
     },
     {
       "id": "010",
+      "lo": "FL-1.3.1",
       "notion": "Principe 1 — Le test révèle des défauts",
       "explication": "Le test peut démontrer la présence de défauts, mais ne peut pas prouver leur absence. Il réduit l’incertitude et augmente la confiance sans garantir le zéro défaut.",
       "exemple": "Même si tous les tests passent, un scénario non testé peut encore échouer en production."
     },
     {
       "id": "011",
+      "lo": "FL-1.3.1",
       "notion": "Principe 2 — Test exhaustif impossible",
       "explication": "Tester toutes les combinaisons d’entrées, d’états et d’environnements est irréaliste. Il faut prioriser en fonction du risque, de la criticité et de la valeur métier.",
       "exemple": "Pour un formulaire complexe, on cible cas limites, règles critiques et erreurs probables plutôt que toutes les permutations."
     },
     {
       "id": "012",
+      "lo": "FL-1.3.1",
       "notion": "Principe 3 — Tester tôt",
       "explication": "Tester tôt permet de détecter les problèmes quand ils coûtent moins cher à corriger, et d’obtenir un feedback rapide. Cela inclut revues, analyses et tests précoces.",
       "exemple": "Revue d’exigences avant développement : suppression d’ambiguïtés avant d’implémenter des erreurs coûteuses."
     },
     {
       "id": "013",
+      "lo": "FL-1.3.1",
       "notion": "Principe 4 — Regroupement des défauts (Pareto)",
       "explication": "Une proportion importante des défauts se concentre souvent dans un petit nombre de composants. Identifier ces zones optimise l’effort de test et la réduction du risque.",
       "exemple": "Si les incidents se concentrent sur la facturation, on renforce la couverture et les revues sur ce périmètre."
     },
     {
       "id": "014",
+      "lo": "FL-1.3.1",
       "notion": "Principe 5 — Usure des tests",
       "explication": "Répéter les mêmes tests finit par détecter moins de nouveaux défauts. Les tests doivent évoluer avec le produit, les risques et les apprentissages.",
       "exemple": "Après stabilisation du login, on ajoute des tests MFA et sécurité au lieu de rejouer uniquement les scénarios basiques."
     },
     {
       "id": "015",
+      "lo": "FL-1.3.1",
       "notion": "Principe 6 — Le test dépend du contexte",
       "explication": "Les techniques et priorités de test dépendent du domaine, de la criticité, des contraintes, du cycle de vie et des risques. Il n’existe pas de stratégie universelle.",
       "exemple": "Logiciel médical : traçabilité et conformité fortes. App marketing : time-to-market prioritaire et tests ciblés."
     },
     {
       "id": "016",
+      "lo": "FL-1.3.1",
       "notion": "Principe 7 — “Zéro défaut” ≠ succès",
       "explication": "Un produit peut être techniquement correct mais échouer si sa valeur d’usage est faible. Le succès se mesure à la valeur, à l’usage et à l’adéquation au besoin.",
       "exemple": "Une fonctionnalité parfaite mais trop complexe est abandonnée : qualité technique élevée, valeur utilisateur faible."
     },
     {
       "id": "017",
+      "lo": "FL-1.4.1",
       "notion": "Activités de test (vue globale)",
       "explication": "Les activités typiques du processus de test incluent : planification, pilotage/contrôle, analyse, conception, implémentation, exécution et clôture. Elles s’adaptent au contexte.",
       "exemple": "Sprint : planifier, analyser la story, concevoir les tests, implémenter, exécuter, reporter, clôturer par un bilan."
     },
     {
       "id": "018",
+      "lo": "FL-1.4.2",
       "notion": "Process de test selon le contexte",
       "explication": "Le contexte (risques, contraintes, domaine, criticité, organisation, cycle de vie, maturité outillage) influence fortement le processus de test. L’objectif est d’optimiser l’impact qualité pour un coût donné.",
       "exemple": "Timebox courte : focus sur tests critiques + smoke. Produit régulé : exigences fortes de traçabilité + revues formelles."
     },
     {
       "id": "019",
+      "lo": "FL-1.4.3",
       "notion": "Testware",
       "explication": "Le testware regroupe les artefacts produits pour le test : plan, cas, suites, données, scripts, logs, rapports, bilans, etc.",
       "exemple": "Suite de non-régression automatisée + données + rapports d’exécution = testware."
     },
     {
       "id": "020",
+      "lo": "FL-1.4.4",
       "notion": "Traçabilité : valeur et usages",
       "explication": "La traçabilité relie base de test (exigences, user stories, règles métier), conditions/cas, résultats et défauts. Elle sert à mesurer la couverture, analyser l’impact, faciliter l’audit et piloter la qualité.",
       "exemple": "Une exigence liée à 5 cas de test : si l’exigence change, on sait immédiatement quels tests sont impactés."
     },
     {
       "id": "021",
+      "lo": "FL-1.4.5",
       "notion": "Rôles dans le test",
       "explication": "Selon l’organisation : test management (stratégie/pilotage), testeur/QA (analyse, conception, exécution, reporting), dev/PO/BA impliqués (approche équipe intégrée). La communication et les décisions go/no-go sont clés.",
       "exemple": "Go/no-go release : synthèse risques/qualité, arbitrage, corrections, puis re-test avant décision finale."
     },
     {
       "id": "022",
+      "lo": "FL-1.5.1",
       "notion": "Compétences génériques pour le test",
       "explication": "Compétences clés : esprit critique, curiosité, rigueur, communication, connaissance produit/métier, compétences techniques. Elles renforcent la qualité des analyses, des tests et des retours.",
       "exemple": "Un testeur qui comprend le métier identifie plus vite les scénarios à risque et formule des anomalies exploitables."
     },
     {
       "id": "023",
+      "lo": "FL-1.5.2",
       "notion": "Approche équipe intégrée (whole team)",
       "explication": "L’approche équipe intégrée considère la qualité comme une responsabilité partagée. Elle favorise collaboration cross-fonctionnelle, feedback rapide et réduction des silos.",
       "exemple": "Pairing QA/dev sur une story critique : meilleure compréhension du risque, tests plus pertinents, moins de rework."
     },
     {
       "id": "024",
+      "lo": "FL-1.5.3",
       "notion": "Indépendance du test",
       "explication": "L’indépendance du test peut aller de l’auto-test par les développeurs à une équipe test indépendante. Bénéfices : regard neuf, biais réduit. Limites : silos, frictions, délais. Le bon niveau dépend du contexte.",
       "exemple": "Produit critique : équipe indépendante renforce l’objectivité. Produit agile : collaboration étroite limite les silos."
