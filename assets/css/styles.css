@@ -17,22 +17,29 @@
 
 * { box-sizing: border-box; }
 
-html, body {
-  height: 100%;
+/* IMPORTANT: on évite height:100% qui peut donner un effet "page bloquée" sur mobile.
+   On préfère min-height:100vh pour garantir que la page s'étend avec le contenu. */
+html {
+  height: auto;
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
   background:
     radial-gradient(1200px 600px at 20% 0%, rgba(110,168,254,0.25), transparent 60%),
     var(--bg);
+
   color: var(--text);
 }
 
+/* Le conteneur principal doit pouvoir grandir avec le contenu */
 .page {
   max-width: 1040px;
   margin: 0 auto;
+  min-height: 100vh;
   padding: 28px 16px 56px;
 }
 
@@ -167,7 +174,7 @@ body {
   line-height: 1.45;
 }
 
-/* New structure for revision cards */
+/* Media */
 .card__media {
   margin: 12px 0 14px;
   border-radius: 14px;
