@@ -10,6 +10,11 @@
       "id": "istqb-fl-fr-ch2",
       "title": "ISTQB FL (FR) — Chapitre 2",
       "file": "istqb-fl-fr-ch2.json"
+    },
+    {
+      "id": "istqb-fl-fr-ch3",
+      "title": "ISTQB FL (FR) — Chapitre 3",
+      "file": "istqb-fl-fr-ch3.json"
     }
   ]
 }
