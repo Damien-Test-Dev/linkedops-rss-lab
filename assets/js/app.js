@@ -6,6 +6,9 @@
  * - charge data/decks/<deckId>.ref.json
  * - expected[] = clés attendues (LO ISTQB)
  * - match sur card.lo si expected commence par "FL-"
+ *
+ * Compat tablette (Safari) :
+ * - évite String.prototype.replaceAll (pas supporté partout)
  */
 
 // Base URLs robustes (GitHub Pages friendly)
@@ -39,7 +42,6 @@ function setAudit(message, visible) {
     return;
   }
   el.hidden = false;
-  // message peut contenir du texte simple → on reste safe via textContent
   el.textContent = message;
 }
 
@@ -59,13 +61,19 @@ function safeText(value) {
   return s.length ? s : "—";
 }
 
+/**
+ * ✅ escapeHTML compatible iPad/Safari :
+ * - pas de replaceAll
+ * - remplacement via regex globales
+ */
 function escapeHTML(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  const s = String(str);
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 async function fetchJSON(urlObj) {
@@ -120,7 +128,7 @@ function resolveCardImage(card) {
 function normalizeRef(rawRef) {
   const expected = Array.isArray(rawRef?.expected) ? rawRef.expected.map(String) : [];
   const expectedClean = expected.map((x) => x.trim()).filter(Boolean);
-  const matchMode = expectedClean.some((x) => x.startsWith("FL-")) ? "lo" : "id";
+  const matchMode = expectedClean.some((x) => x.indexOf("FL-") === 0) ? "lo" : "id";
 
   return {
     id: safeText(rawRef?.id),
