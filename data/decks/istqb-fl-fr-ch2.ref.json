@@ -1,0 +1,69 @@
+{
+  "id": "istqb-fl-fr-ch2-ref",
+  "chapterNumber": 2,
+  "chapterName": "Tester tout au long du cycle de vie du développement logiciel",
+  "keywords": [
+    "tests d’acceptation",
+    "tests boîte noire",
+    "tests d’intégration de composants",
+    "tests de composants",
+    "tests de confirmation",
+    "tests fonctionnels",
+    "tests d’intégration",
+    "tests de maintenance",
+    "tests non fonctionnels",
+    "tests de régression",
+    "shift-left",
+    "tests d’intégration de systèmes",
+    "tests de systèmes",
+    "niveau de test",
+    "objet de test",
+    "type de test",
+    "tests boîte blanche",
+    "DevOps",
+    "CI/CD",
+    "rétrospectives"
+  ],
+  "learningObjectives": [
+    { "lo": "FL-2.1.1", "level": "K2", "label": "Expliquer l’impact du cycle de vie choisi sur le test" },
+    { "lo": "FL-2.1.2", "level": "K1", "label": "Rappeler les bonnes pratiques de test valables pour tous les cycles de vie" },
+    { "lo": "FL-2.1.3", "level": "K1", "label": "Rappeler des exemples d’approches de développement piloté par les tests" },
+    { "lo": "FL-2.1.4", "level": "K2", "label": "Résumer l’impact potentiel de DevOps sur le test" },
+    { "lo": "FL-2.1.5", "level": "K2", "label": "Expliquer l’approche shift-left" },
+    { "lo": "FL-2.1.6", "level": "K2", "label": "Expliquer l’usage des rétrospectives comme levier d’amélioration de processus" },
+
+    { "lo": "FL-2.2.1", "level": "K2", "label": "Distinguer les différents niveaux de test" },
+    { "lo": "FL-2.2.2", "level": "K2", "label": "Distinguer les différents types de tests" },
+    { "lo": "FL-2.2.3", "level": "K2", "label": "Distinguer test de confirmation vs test de régression" },
+
+    { "lo": "FL-2.3.1", "level": "K2", "label": "Résumer les tests de maintenance et leurs déclencheurs" }
+  ],
+  "outline": [
+    { "section": "2.1", "title": "Tester dans le contexte d’un cycle de vie du développement logiciel", "children": ["2.1.1", "2.1.2", "2.1.3", "2.1.4", "2.1.5", "2.1.6"] },
+    { "section": "2.1.1", "title": "Impact du cycle de vie du développement logiciel sur le test" },
+    { "section": "2.1.2", "title": "Cycle de vie du développement logiciel et bonnes pratiques de test" },
+    { "section": "2.1.3", "title": "Le test en tant que moteur du développement de logiciels" },
+    { "section": "2.1.4", "title": "DevOps et tests" },
+    { "section": "2.1.5", "title": "Approche shift left" },
+    { "section": "2.1.6", "title": "Rétrospectives et amélioration de processus" },
+
+    { "section": "2.2", "title": "Niveaux de test et types de test", "children": ["2.2.1", "2.2.2", "2.2.3"] },
+    { "section": "2.2.1", "title": "Niveaux de test" },
+    { "section": "2.2.2", "title": "Types de test" },
+    { "section": "2.2.3", "title": "Test de confirmation et test de régression" },
+
+    { "section": "2.3", "title": "Test de maintenance" }
+  ],
+  "expected": [
+    "FL-2.1.1",
+    "FL-2.1.2",
+    "FL-2.1.3",
+    "FL-2.1.4",
+    "FL-2.1.5",
+    "FL-2.1.6",
+    "FL-2.2.1",
+    "FL-2.2.2",
+    "FL-2.2.3",
+    "FL-2.3.1"
+  ]
+}
