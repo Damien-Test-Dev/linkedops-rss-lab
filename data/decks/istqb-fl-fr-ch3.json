@@ -1,0 +1,104 @@
+{
+  "id": "istqb-fl-fr-ch3",
+  "title": "ISTQB Foundation (FR) — Chapitre 3",
+  "cards": [
+    {
+      "id": "001",
+      "lo": "FL-3.1.1",
+      "notion": "Produits examinables en test statique",
+      "explication": "Le test statique s’applique à des produits de travail (work products) sans exécuter le logiciel. On peut examiner des documents et artefacts comme exigences, user stories, spécifications, modèles, code, cas de test et scripts.",
+      "exemple": "Relire une user story pour détecter ambiguïtés et incohérences avant développement."
+    },
+    {
+      "id": "002",
+      "lo": "FL-3.1.1",
+      "notion": "Artefacts typiques concernés",
+      "explication": "Les techniques statiques ciblent surtout les artefacts qui structurent le produit : exigences, conception, code, et testware. Plus l’artefact est amont, plus la correction est économique.",
+      "exemple": "Inspection d’une spécification d’API (contrats, erreurs, formats) avant implémentation."
+    },
+    {
+      "id": "003",
+      "lo": "FL-3.1.2",
+      "notion": "Valeur du test statique",
+      "explication": "Le test statique détecte tôt des défauts (ambiguïtés, omissions, contradictions, non-conformités), réduit les coûts de correction, améliore la qualité des artefacts et alimente la prévention des défauts.",
+      "exemple": "Une revue de conception détecte une règle métier manquante, évitant un développement et des retests coûteux."
+    },
+    {
+      "id": "004",
+      "lo": "FL-3.1.2",
+      "notion": "Test statique = prévention",
+      "explication": "Le test statique contribue fortement à la prévention : il améliore la clarté et la testabilité des exigences, renforce la compréhension commune et diminue le volume de défauts qui atteignent les phases de tests dynamiques.",
+      "exemple": "Relecture technique d’un critère d’acceptation : suppression d’un doublon et ajout d’un cas limite oublié."
+    },
+    {
+      "id": "005",
+      "lo": "FL-3.1.3",
+      "notion": "Test statique vs test dynamique",
+      "explication": "Le test statique examine des artefacts sans exécution (revues, analyses). Le test dynamique exécute le logiciel pour observer le comportement. Les deux sont complémentaires : statique = détecter tôt, dynamique = valider le comportement réel.",
+      "exemple": "Statique : revue de code. Dynamique : exécution d’un test système sur le flux de commande."
+    },
+    {
+      "id": "006",
+      "lo": "FL-3.1.3",
+      "notion": "Anomalie (statique) vs défaillance (dynamique)",
+      "explication": "En statique, on identifie des anomalies/défauts dans un artefact (exigence ambiguë, code incorrect). En dynamique, on observe une défaillance (comportement incorrect). Une même cause peut se voir en statique puis se manifester en dynamique.",
+      "exemple": "Condition erronée dans le code (défaut) → mauvais calcul en exécution (défaillance)."
+    },
+    {
+      "id": "007",
+      "lo": "FL-3.2.1",
+      "notion": "Feedback précoce et fréquent : bénéfices",
+      "explication": "Un feedback précoce et fréquent aligne les parties prenantes, réduit les malentendus, détecte tôt les défauts et diminue le rework. Il sécurise la prise de décision et améliore la qualité globale.",
+      "exemple": "Revue d’exigences avec PO/dev/test : clarification immédiate d’une règle métier avant implémentation."
+    },
+    {
+      "id": "008",
+      "lo": "FL-3.2.2",
+      "notion": "Processus de revue : activités (vue globale)",
+      "explication": "Le processus de revue inclut typiquement : planification, initiation (partage du work product), préparation individuelle, réunion de revue (si applicable), reprise/corrections, suivi et clôture.",
+      "exemple": "Inspection : préparation individuelle + réunion formelle + liste d’anomalies + corrections + vérification de clôture."
+    },
+    {
+      "id": "009",
+      "lo": "FL-3.2.2",
+      "notion": "Préparation individuelle",
+      "explication": "La préparation individuelle consiste à analyser l’artefact en amont, identifier anomalies/questions et venir en revue avec des éléments concrets. Elle augmente le ROI et réduit le temps de réunion.",
+      "exemple": "Chaque reviewer note ambiguïtés, incohérences et questions sur la spec avant la réunion."
+    },
+    {
+      "id": "010",
+      "lo": "FL-3.2.3",
+      "notion": "Rôles principaux en revue",
+      "explication": "Rôles typiques : auteur (fournit l’artefact), modérateur/animateur (cadre la revue), reviewers (analysent), scribe/secrétaire (consigne les anomalies). Les responsabilités varient selon le type de revue.",
+      "exemple": "Inspection : modérateur gère le process, scribe note les défauts, reviewers challengent l’artefact, auteur clarifie."
+    },
+    {
+      "id": "011",
+      "lo": "FL-3.2.4",
+      "notion": "Types de revues (panorama)",
+      "explication": "Les revues vont d’informelles à formelles : revue informelle, revue technique / relecture technique, inspection (souvent la plus formelle). Elles diffèrent par l’objectif, le niveau de formalisation et la traçabilité.",
+      "exemple": "Relecture rapide entre pairs (informelle) vs inspection avec critères d’entrée/sortie et comptes rendus."
+    },
+    {
+      "id": "012",
+      "lo": "FL-3.2.4",
+      "notion": "Revue informelle vs inspection",
+      "explication": "La revue informelle est rapide, flexible, peu documentée. L’inspection est structurée, avec préparation, rôles définis, règles, métriques et suivi formel. On choisit selon risque/criticité.",
+      "exemple": "Code critique sécurité : inspection. Petite correction UI : revue informelle."
+    },
+    {
+      "id": "013",
+      "lo": "FL-3.2.5",
+      "notion": "Facteurs de réussite d’une revue",
+      "explication": "Facteurs clés : objectifs clairs, participants compétents, temps de préparation, artefact stable, critères d’entrée/sortie, modération efficace, climat constructif, et suivi des actions.",
+      "exemple": "Une revue sans préparation individuelle se transforme en lecture collective : faible efficacité et peu de défauts détectés."
+    },
+    {
+      "id": "014",
+      "lo": "FL-3.2.5",
+      "notion": "Revue efficace = focus + discipline",
+      "explication": "Une revue performante évite les débats hors scope, limite la taille des lots, et privilégie la détection d’anomalies. La discipline de process et le respect du temps maximisent la valeur.",
+      "exemple": "Découper une spec longue en segments revus sur 2 sessions plutôt que 1 réunion interminable."
+    }
+  ]
+}
