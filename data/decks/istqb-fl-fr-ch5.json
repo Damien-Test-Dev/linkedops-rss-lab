@@ -1,0 +1,134 @@
+{
+  "id": "istqb-fl-fr-ch5",
+  "title": "ISTQB Foundation (FR) — Chapitre 5 (Gestion des tests)",
+  "cards": [
+    {
+      "id": "001",
+      "lo": "CH5-1",
+      "notion": "Organisation des tests",
+      "explication": "Les tests doivent être organisés pour être planifiés, contrôlés, visibles et traçables. L’organisation dépend du contexte projet et doit clarifier les responsabilités.",
+      "exemple": "Sur un projet critique, définir une gouvernance test (rôles, rituels, reporting) et une traçabilité exigences ↔ tests ↔ résultats."
+    },
+    {
+      "id": "002",
+      "lo": "CH5-1",
+      "notion": "Responsabilités de test",
+      "explication": "Les responsabilités doivent être explicites pour éviter les angles morts : qui conçoit, qui exécute, qui valide, qui décide go/no-go.",
+      "exemple": "Le testeur exécute et remonte, le dev corrige, le PO valide l’acceptation, le test manager consolide l’état."
+    },
+
+    {
+      "id": "003",
+      "lo": "CH5-2",
+      "notion": "Planification des tests",
+      "explication": "La planification définit l’approche : objectifs, niveaux/types de tests, ressources, risques, et critères d’entrée/sortie. Elle aligne le test sur les contraintes projet.",
+      "exemple": "Planifier une non-régression automatisée quotidienne + un test exploratoire hebdo sur les zones à risque."
+    },
+    {
+      "id": "004",
+      "lo": "CH5-2",
+      "notion": "Risques et planification",
+      "explication": "Les risques influencent le périmètre et les priorités : on investit plus là où l’impact et la probabilité sont élevés. Le test devient un levier de réduction du risque produit.",
+      "exemple": "Paiement : risque élevé → couverture renforcée (BVA + décision + E2E + monitoring)."
+    },
+    {
+      "id": "005",
+      "lo": "CH5-2",
+      "notion": "Critères d’entrée et de sortie",
+      "explication": "Les critères d’entrée/sortie cadrent le démarrage et la fin des tests : stabilité, build, environnement, seuils qualité, défauts ouverts, couverture minimale.",
+      "exemple": "Sortie test système : 0 défaut critique ouvert + taux de réussite non-régression ≥ 95%."
+    },
+
+    {
+      "id": "006",
+      "lo": "CH5-3",
+      "notion": "Surveillance (monitoring) des tests",
+      "explication": "La surveillance compare l’avancement réel au plan : progression, couverture, défauts, risques. Elle s’appuie sur des métriques pour objectiver l’état.",
+      "exemple": "Suivre quotidiennement : tests exécutés vs prévus, défauts ouverts, taux de succès pipeline."
+    },
+    {
+      "id": "007",
+      "lo": "CH5-3",
+      "notion": "Contrôle (control) des tests",
+      "explication": "Le contrôle ajuste si nécessaire : priorités, ressources, stratégie, scope. Les écarts sont analysés et des actions correctives sont décidées.",
+      "exemple": "Retard : réduire scope low-risk, renforcer automatisation sur smoke, décaler tests non critiques."
+    },
+
+    {
+      "id": "008",
+      "lo": "CH5-4",
+      "notion": "Achèvement des tests",
+      "explication": "L’achèvement confirme que les critères de sortie sont atteints. On identifie les tests restants, évalue les défauts ouverts, archive les livrables et documente les leçons apprises.",
+      "exemple": "Clôture release : rapport final, liste de risques résiduels, archivage des logs, rétro “post-release”."
+    },
+
+    {
+      "id": "009",
+      "lo": "CH5-5",
+      "notion": "Gestion de la configuration (test)",
+      "explication": "Elle identifie et contrôle les éléments nécessaires au test (testware, environnements, données, versions). Elle assure la traçabilité et la maîtrise des changements.",
+      "exemple": "Versionner scripts de test + données + config env ; relier une exécution à un build précis."
+    },
+
+    {
+      "id": "010",
+      "lo": "CH5-6",
+      "notion": "Risques : produit vs projet",
+      "explication": "Le risque est un événement négatif futur possible. Le risque produit concerne la qualité logicielle (défauts). Le risque projet concerne planning, budget, ressources, organisation.",
+      "exemple": "Produit : fail paiement. Projet : manque de testeurs → couverture réduite."
+    },
+    {
+      "id": "011",
+      "lo": "CH5-6",
+      "notion": "Priorisation des tests par le risque",
+      "explication": "Les tests sont priorisés selon le niveau de risque : plus l’impact et la probabilité sont élevés, plus on teste tôt et fort (shift-left + profondeur).",
+      "exemple": "Critique business : tests E2E + perfs + sécurité. Faible risque : tests ciblés."
+    },
+
+    {
+      "id": "012",
+      "lo": "CH5-7",
+      "notion": "Gestion des défauts",
+      "explication": "Un défaut est un écart vs attendu. Il est enregistré dans un outil, suit un cycle de vie, et sa sévérité (impact) et sa priorité (ordre de correction) guident le pilotage.",
+      "exemple": "Défaut critique en prod : sévérité haute + priorité P0 → correction immédiate + confirmation + régression."
+    },
+    {
+      "id": "013",
+      "lo": "CH5-7",
+      "notion": "Sévérité vs priorité",
+      "explication": "Sévérité = impact du défaut sur le système/usage. Priorité = ordre/urgence de correction (dépend du contexte, planning, risque). Ce n’est pas la même chose.",
+      "exemple": "Bug mineur visuel (sévérité faible) mais sur page d’achat avant Black Friday (priorité élevée)."
+    },
+
+    {
+      "id": "014",
+      "lo": "CH5-8",
+      "notion": "Métriques de test",
+      "explication": "Les métriques mesurent avancement et qualité : elles soutiennent la prise de décision. Elles doivent être interprétées avec prudence (pas de pilotage aveugle).",
+      "exemple": "Taux de réussite, couverture, défauts par sévérité, temps de cycle, stabilité builds."
+    },
+    {
+      "id": "015",
+      "lo": "CH5-8",
+      "notion": "Rapports de test",
+      "explication": "Les rapports communiquent l’état des tests aux parties prenantes. Ils doivent être clairs, adaptés (audience) et orientés décision (risques, recommandations).",
+      "exemple": "Rapport go/no-go : couverture, défauts critiques, risques résiduels, recommandation."
+    },
+
+    {
+      "id": "016",
+      "lo": "CH5-9",
+      "notion": "Compétences & rôles du testeur",
+      "explication": "Le testeur a besoin de compétences techniques, analytiques et de communication. L’objectivité et l’éthique professionnelle sont essentielles pour un feedback fiable.",
+      "exemple": "Rédiger un défaut factuel, reproductible, non accusatoire ; challenger une exigence ambiguë."
+    },
+
+    {
+      "id": "017",
+      "lo": "CH5-10",
+      "notion": "Message clé (Chapitre 5)",
+      "explication": "La gestion des tests pilote la qualité : planifier, suivre, contrôler, prioriser par les risques, et utiliser des métriques pour décider. Une gestion efficace maximise la valeur du test.",
+      "exemple": "Pilotage par le risque : concentrer l’effort test là où l’échec coûte le plus."
+    }
+  ]
+}
