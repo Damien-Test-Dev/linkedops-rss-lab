@@ -1,0 +1,93 @@
+{
+  "id": "istqb-fl-fr-ch6",
+  "title": "ISTQB Foundation (FR) — Chapitre 6 (Outils de test)",
+  "cards": [
+    {
+      "id": "001",
+      "lo": "CH6-1",
+      "notion": "Pourquoi utiliser des outils de test ?",
+      "explication": "Les outils soutiennent les activités de test : efficacité, répétabilité, traçabilité, rapidité de feedback et meilleure visibilité (reporting). Ils réduisent le travail manuel sur les tâches répétitives.",
+      "exemple": "Pipeline CI qui exécute une non-régression automatisée à chaque merge pour détecter tôt les régressions."
+    },
+    {
+      "id": "002",
+      "lo": "CH6-1",
+      "notion": "Bénéfices typiques de l’outillage",
+      "explication": "Bénéfices fréquents : exécution plus rapide, réduction des erreurs humaines, meilleure couverture sur répétition, reporting automatique, meilleure gouvernance (traçabilité) et support à la conformité.",
+      "exemple": "Tableau de bord qui consolide succès/échecs, tendances défauts, et état go/no-go."
+    },
+    {
+      "id": "003",
+      "lo": "CH6-1",
+      "notion": "Risques et limites des outils",
+      "explication": "Un outil n’est pas une solution magique : coûts de mise en place, maintenance, faux positifs/négatifs, dépendance à l’outil, et risque d’automatiser de “mauvais” tests. Il faut gouverner l’outillage.",
+      "exemple": "Scripts fragiles UI : une petite évolution d’interface casse 30 tests → bruit et perte de confiance."
+    },
+
+    {
+      "id": "004",
+      "lo": "CH6-2",
+      "notion": "Outils de gestion des tests",
+      "explication": "Ils supportent la planification, la conception, l’exécution, le suivi des résultats et le reporting. Ils renforcent la traçabilité entre exigences, tests, exécutions et défauts.",
+      "exemple": "Créer des campagnes de test, suivre l’avancement, produire un rapport de fin de cycle."
+    },
+    {
+      "id": "005",
+      "lo": "CH6-2",
+      "notion": "Outils de suivi des défauts",
+      "explication": "Ils gèrent l’enregistrement des défauts, leur cycle de vie, la collaboration et la priorisation. Ils améliorent la visibilité et la prise de décision.",
+      "exemple": "Défaut créé avec steps to reproduce, sévérité, priorité, et lien vers le test échoué."
+    },
+    {
+      "id": "006",
+      "lo": "CH6-2",
+      "notion": "Outils d’automatisation des tests",
+      "explication": "Ils exécutent des tests automatiquement (souvent régression/smoke) et fournissent un feedback rapide. Ils demandent conception, maintenance, et stratégie (pyramide, ROI).",
+      "exemple": "Tests API automatisés qui valident les endpoints critiques à chaque build."
+    },
+    {
+      "id": "007",
+      "lo": "CH6-2",
+      "notion": "Outils d’analyse statique",
+      "explication": "Ils analysent le code ou d’autres artefacts sans exécution pour détecter anomalies, mauvaises pratiques, vulnérabilités et dette technique. Ils renforcent le shift-left.",
+      "exemple": "Analyseur détectant code mort, complexité excessive, injection possible, ou règles de style non respectées."
+    },
+    {
+      "id": "008",
+      "lo": "CH6-2",
+      "notion": "Outils de performance / monitoring",
+      "explication": "Ils mesurent des caractéristiques non fonctionnelles (temps de réponse, charge, stabilité) et surveillent le comportement en exploitation. Ils aident à réduire le risque production.",
+      "exemple": "Test de charge avant release + monitoring temps réel qui alerte sur erreurs 5xx après déploiement."
+    },
+
+    {
+      "id": "009",
+      "lo": "CH6-3",
+      "notion": "Critères de sélection d’un outil",
+      "explication": "On sélectionne un outil selon : besoins, compatibilité (stack/CI), facilité d’usage, intégrations, coût total (licence + setup + maintenance), support, sécurité et contraintes organisationnelles.",
+      "exemple": "Choisir un outil d’automatisation qui s’intègre à CI/CD et supporte les navigateurs cibles."
+    },
+    {
+      "id": "010",
+      "lo": "CH6-3",
+      "notion": "ROI et coût total de possession (TCO)",
+      "explication": "Le ROI dépend du coût total (temps, maintenance, formation) vs bénéfices (temps gagné, défauts évités, rapidité de feedback). Un outil utile est un outil gouverné et maintenable.",
+      "exemple": "Automatiser un smoke pack stable (ROI) plutôt que des tests UI instables (coût élevé, valeur faible)."
+    },
+    {
+      "id": "011",
+      "lo": "CH6-3",
+      "notion": "Déploiement d’un outil : mise en place",
+      "explication": "La mise en place inclut : pilote (proof of concept), adoption progressive, formation, règles de qualité (standards), intégration aux process, et suivi des bénéfices.",
+      "exemple": "Piloter l’outil sur un module, mesurer le gain, puis généraliser avec guidelines et templates."
+    },
+
+    {
+      "id": "012",
+      "lo": "CH6-4",
+      "notion": "Message clé (Chapitre 6)",
+      "explication": "Les outils amplifient l’efficacité du test mais introduisent des coûts et des risques. Le succès dépend du bon choix, de l’intégration au contexte, et d’une gouvernance orientée valeur.",
+      "exemple": "Outillage aligné sur risques + CI/CD + métriques : feedback rapide et décisions fiables."
+    }
+  ]
+}
