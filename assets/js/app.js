@@ -6,8 +6,9 @@
  *
  * Coverage :
  * - charge data/decks/<deckId>.ref.json
- * - expected[] = clés attendues (LO ISTQB)
- * - match sur card.lo si expected commence par "FL-"
+ * - expected[] = clés attendues
+ * - match sur card.lo si expected contient des codes de référence (FL-*, CH*, etc.)
+ * - sinon match sur card.id
  *
  * Compat iOS 12 :
  * - pas de optional chaining (?.)
@@ -141,11 +142,39 @@ function resolveCardImage(card) {
   return DEFAULT_CARD_IMAGE;
 }
 
+/**
+ * Détecte si une string ressemble à un code de référence (LO)
+ * - FL-... (ISTQB)
+ * - CH... (tes chapitres custom : CH4-..., CH5-..., etc.)
+ * - ou plus généralement : commence par des lettres MAJ + chiffres ou contient un tiret structurant
+ */
+function looksLikeRefCode(s) {
+  if (!s) return false;
+  var x = String(s).trim();
+  if (!x) return false;
+
+  // cas ISTQB classique
+  if (x.indexOf("FL-") === 0) return true;
+
+  // tes codes chapitres (CH4-..., CH5-..., CH6-...)
+  if (x.indexOf("CH") === 0) return true;
+
+  // garde-fou général : "ABC-1.2.3" / "X1-2" etc.
+  // (évite de matcher des ids purement numériques)
+  if (/^[A-Z]{2,}\d/.test(x)) return true;
+  if (/[A-Z]/.test(x) && x.indexOf("-") >= 0) return true;
+
+  return false;
+}
+
 function normalizeRef(rawRef) {
   var expected = (rawRef && Array.isArray(rawRef.expected)) ? rawRef.expected.map(String) : [];
   var expectedClean = expected.map(function (x) { return String(x).trim(); }).filter(Boolean);
 
-  var matchMode = expectedClean.some(function (x) { return x.indexOf("FL-") === 0; }) ? "lo" : "id";
+  // ✅ FIX : on bascule en mode "lo" si expected ressemble à des codes de référence
+  var matchMode = expectedClean.some(function (x) {
+    return looksLikeRefCode(x);
+  }) ? "lo" : "id";
 
   return {
     id: safeText(rawRef && rawRef.id),
@@ -278,7 +307,7 @@ function renderSingleCard(deck, cardIndex, coverage) {
 
     var hint = "";
     if (coverage.matchMode === "lo" && coverage.coveredCount === 0) {
-      hint = " — Ajoute le champ 'lo' aux cartes pour activer le matching.";
+      hint = " — Vérifie que tes cartes ont bien un champ 'lo' (et que la ref attend le bon format).";
     } else if (missingCount > 0) {
       hint = " — Manquants: " + missingCount;
     } else {
@@ -290,7 +319,7 @@ function renderSingleCard(deck, cardIndex, coverage) {
     if (missingCount > 0) {
       setAudit("Manquants (" + missingCount + ") : " + coverage.missing.join(", "), true);
     } else {
-      setAudit("Deck complet ✅ (tous les objectifs attendus sont couverts)", true);
+      setAudit("Deck complet ✅ (tous les items attendus sont couverts)", true);
     }
   }
 
