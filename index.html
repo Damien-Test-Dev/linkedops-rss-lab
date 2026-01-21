@@ -8,17 +8,34 @@
   </head>
 
   <body>
-    <!-- Header minimal (branding only) -->
+    <!-- Header minimal (branding + bouton menu pour mobile/tablette) -->
     <header class="topbar" role="banner">
       <div class="topbar__inner">
+        <button
+          id="sidebar-toggle"
+          class="iconbtn"
+          type="button"
+          aria-label="Ouvrir le menu"
+          aria-controls="sidebar"
+          aria-expanded="false"
+          title="Menu"
+        >
+          ☰
+        </button>
+
         <h1 class="topbar__title">ISTQB Révision</h1>
+
+        <!-- Spacer pour équilibrer la barre -->
+        <div class="topbar__spacer" aria-hidden="true"></div>
       </div>
     </header>
 
+    <!-- ✅ Overlay (sert à fermer le menu en tap hors sidebar) -->
+    <div id="overlay" class="overlay" hidden></div>
+
     <!-- ✅ Layout principal : sidebar gauche + zone carte -->
     <div class="layout">
-      <!-- Sidebar (contrôles latéraux) -->
-      <aside class="sidebar" aria-label="Menu latéral">
+      <aside id="sidebar" class="sidebar" aria-label="Menu latéral">
         <div class="sidebar__block">
           <label class="control control--stack">
             <span class="control__label">Deck</span>
@@ -36,13 +53,11 @@
         </div>
       </aside>
 
-      <!-- Main : la carte doit être l’unique focus -->
       <main class="app" role="main">
         <section id="cards" class="cards" aria-live="polite"></section>
       </main>
     </div>
 
-    <!-- ✅ Footer : statut + audit (audit reste discret, mais en bas) -->
     <footer class="bottombar" role="contentinfo">
       <div id="audit" class="audit" hidden></div>
       <p id="status" class="status" data-state="ok">Chargement…</p>
