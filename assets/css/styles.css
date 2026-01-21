@@ -12,6 +12,7 @@
   --bottombar-h: 56px;
 
   --sidebar-w: 240px;
+  --sidebar-compact-w: 72px;
 
   --border: rgba(255, 255, 255, 0.12);
   --muted: rgba(255, 255, 255, 0.72);
@@ -40,19 +41,18 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   line-height: 1.35;
 
-  /* header + layout + footer */
   display: flex;
   flex-direction: column;
 }
 
 /* =========================
-   Topbar (minimal)
+   Topbar (minimal + menu button)
 ========================= */
 
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 30;
 
   background: rgba(11, 16, 32, 0.92);
   backdrop-filter: saturate(140%) blur(10px);
@@ -65,14 +65,49 @@ body {
   margin: 0 auto;
   padding: 0 var(--pad);
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
   align-items: center;
+  gap: 8px;
 }
 
 .topbar__title {
   margin: 0;
   font-size: 16px;
   letter-spacing: 0.2px;
+  text-align: center;
+}
+
+.topbar__spacer {
+  width: 44px;
+  height: 44px;
+}
+
+.iconbtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.iconbtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   Overlay (mobile/tablet open menu)
+========================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.45);
 }
 
 /* =========================
@@ -86,11 +121,10 @@ body {
   max-width: var(--max-width);
   margin: 0 auto;
 
-  /* Important: empêcher que le footer coupe le contenu */
   min-height: calc(100vh - var(--topbar-h) - var(--bottombar-h));
 }
 
-/* Sidebar */
+/* Sidebar (desktop default) */
 .sidebar {
   width: var(--sidebar-w);
   border-right: 1px solid var(--border);
@@ -102,6 +136,7 @@ body {
   gap: 12px;
 }
 
+/* Sidebar blocks */
 .sidebar__block {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
@@ -115,7 +150,7 @@ body {
   gap: 10px;
 }
 
-/* Controls in sidebar */
+/* Controls */
 .control {
   display: flex;
   align-items: center;
@@ -144,6 +179,7 @@ body {
   outline: none;
 }
 
+/* Sidebar buttons */
 .sbtn {
   width: 100%;
   border: 1px solid var(--border);
@@ -180,8 +216,6 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-
-  /* ✅ full screen : pas de padding externe qui “cadre” la carte */
   padding: 0;
   min-width: 0;
 }
@@ -200,8 +234,8 @@ body {
 .card {
   width: 100%;
   height: 100%;
+  min-height: 100%;
 
-  /* ✅ carte "plein écran" : plus de cadre */
   border-radius: 0;
   border: 0;
   background: rgba(255, 255, 255, 0.04);
@@ -210,9 +244,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-
-  /* pour être sûr sur iOS */
-  min-height: 100%;
 }
 
 .card__badge {
@@ -226,13 +257,11 @@ body {
   line-height: 1.2;
 }
 
-/* Image : maîtrisée, ne bouffe pas l'écran */
 .card__media {
   border-radius: 16px;
   border: 1px solid var(--border);
   overflow: hidden;
   background: rgba(0, 0, 0, 0.16);
-
   max-height: 240px;
 }
 
@@ -281,7 +310,7 @@ body {
 .bottombar {
   position: sticky;
   bottom: 0;
-  z-index: 10;
+  z-index: 30;
 
   background: rgba(11, 16, 32, 0.92);
   backdrop-filter: saturate(140%) blur(10px);
@@ -317,39 +346,77 @@ body {
 }
 
 /* =========================
-   Responsive (mobile: sidebar becomes bottom bar)
+   Responsive strategy
+   Objectif: même design partout = sidebar gauche conservée.
+   - Tablettes/phones: sidebar compacte (icônes) + toggle overlay
 ========================= */
 
-@media (max-width: 820px) {
+/* <= 1024px : tablettes (iPad portrait, etc.) -> sidebar un peu plus fine */
+@media (max-width: 1024px) {
   :root {
-    --sidebar-w: 100%;
-    --topbar-h: 52px;
+    --sidebar-w: 220px;
   }
-
-  .layout {
-    flex-direction: column;
+  .card__img {
+    height: 220px;
   }
-
-  .sidebar {
-    width: 100%;
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
-
-    /* ✅ sur mobile/tablette : sidebar plus compacte */
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .sidebar__block--buttons {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .card__media {
     max-height: 220px;
   }
+}
 
-  .card__img {
-    height: 220px;
+/* <= 820px : iPad / petites tablettes -> sidebar compacte par défaut */
+@media (max-width: 820px) {
+  .sidebar {
+    width: var(--sidebar-compact-w);
+    padding: 10px;
+    gap: 10px;
+  }
+
+  /* Compact = on cache les labels longs, on garde les icônes */
+  .control__label {
+    display: none;
+  }
+
+  .control__select {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .sbtn {
+    justify-content: center;
+    padding: 12px 10px;
+  }
+
+  .sbtn span {
+    display: none;
+  }
+}
+
+/* <= 600px : smartphones -> sidebar compacte + overlay quand ouverte */
+@media (max-width: 600px) {
+  /* Sidebar en overlay quand ouverte */
+  body.sidebar-open .sidebar {
+    position: fixed;
+    left: 0;
+    top: var(--topbar-h);
+    bottom: var(--bottombar-h);
+    z-index: 25;
+
+    width: min(320px, 86vw);
+    padding: var(--pad);
+    overflow: auto;
+  }
+
+  body.sidebar-open .sbtn span,
+  body.sidebar-open .control__label {
+    display: inline;
+  }
+
+  body.sidebar-open .sbtn span {
+    display: inline;
+  }
+
+  body.sidebar-open .overlay {
+    display: block;
   }
 }
