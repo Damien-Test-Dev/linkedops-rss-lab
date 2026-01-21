@@ -1,43 +1,41 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cartes de révision</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ISTQB Révision</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
 
-<body>
-  <main class="page">
-    <header class="header">
-      <h1>Cartes d'identité</h1>
-      <p class="subtitle">UI pilotée par JSON — tu ajoutes des fichiers, l’app s’enrichit.</p>
+  <body>
+    <header class="topbar">
+      <div class="topbar__inner">
+        <h1 class="topbar__title">ISTQB Révision</h1>
 
-      <div class="toolbar">
-        <div class="toolbar__group">
-          <label class="toolbar__label" for="deck-select">Deck</label>
-          <select id="deck-select" class="toolbar__select" disabled></select>
-        </div>
+        <div class="topbar__controls" role="group" aria-label="Contrôles de révision">
+          <label class="control">
+            <span class="control__label">Deck</span>
+            <select id="deck-select" class="control__select" aria-label="Choisir un deck"></select>
+          </label>
 
-        <div class="toolbar__group toolbar__group--right">
-          <button id="btn-random" class="toolbar__button" disabled>Aléatoire</button>
-          <button id="btn-next" class="toolbar__button toolbar__button--primary" disabled>Suivant</button>
+          <button id="btn-random" class="btn" type="button">Aléatoire</button>
+          <button id="btn-next" class="btn btn--primary" type="button">Suivant</button>
         </div>
       </div>
-
-      <p id="status" class="status" data-state="ok">Chargement…</p>
-
-      <!-- ✅ Nouveau : audit visible -->
-      <p id="audit" class="audit" hidden></p>
     </header>
 
-    <section id="cards" class="grid" aria-live="polite"></section>
+    <main class="app" role="main">
+      <section id="cards" class="cards" aria-live="polite"></section>
 
-    <footer class="footer">
-      <div>Source de vérité : <code>/data/decks/index.json</code> → liste des decks.</div>
+      <!-- Zone audit (manquants) : on la garde, mais elle reste discrète -->
+      <div id="audit" class="audit" hidden></div>
+    </main>
+
+    <!-- ✅ Footer : tous les messages de statut (dont "Deck complet ✅") seront ici -->
+    <footer class="bottombar" role="contentinfo">
+      <p id="status" class="status" data-state="ok">Chargement…</p>
     </footer>
-  </main>
 
-  <script type="module" src="assets/js/app.js"></script>
-</body>
+    <script src="assets/js/app.js"></script>
+  </body>
 </html>
