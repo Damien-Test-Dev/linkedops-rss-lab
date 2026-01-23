@@ -7,20 +7,30 @@
  * - Deck: data/decks/<file>.json -> { id, title, cards[] }
  * - Ref (optionnel): data/decks/<deckId>.ref.json -> { expected[] }
  *
- * UI:
- * - Sidebar gauche: deck-select + boutons
- * - Carte: notion + explication + exemple + image
- * - Footer: status + audit (manquants)
+ * Images:
+ * - Manifest: assets/images/manifest.json
+ * - Aléatoire à chaque affichage (chaque render)
+ * - Anti-répétition: évite deux fois la même image d'affilée
  */
 
 var ROOT_DIR = new URL("./", document.baseURI);
 var DECKS_DIR = new URL("data/decks/", ROOT_DIR);
 var DECKS_INDEX_URL = new URL("index.json", DECKS_DIR);
 
+var IMAGES_MANIFEST_URL = new URL("assets/images/manifest.json", ROOT_DIR);
+
 var DEFAULT_CARD_IMAGE = {
   src: "assets/images/istqb-fl-fr/001.png",
   alt: "Illustration — révision test logiciel"
 };
+
+var imagesCatalog = {
+  basePath: "assets/images/",
+  images: []
+};
+
+// ✅ Anti-répétition : on mémorise la dernière image utilisée
+var lastRandomImageSrc = null;
 
 function $(id) {
   return document.getElementById(id);
@@ -80,7 +90,7 @@ function fetchJSON(urlObj) {
 }
 
 /* -----------------------------
-   Storage: garder la progression par deck
+   Storage: progression
 ----------------------------- */
 
 function storageKey(deckId) {
@@ -106,7 +116,95 @@ function saveIndex(deckId, index) {
 }
 
 /* -----------------------------
-   Data model
+   Images: manifest + random per render + anti-repeat
+----------------------------- */
+
+function normalizeImagesManifest(raw) {
+  var basePath = (raw && raw.basePath) ? String(raw.basePath).trim() : "assets/images/";
+  var imgs = (raw && Array.isArray(raw.images)) ? raw.images.map(String) : [];
+
+  imgs = imgs
+    .map(function (x) { return String(x).trim(); })
+    .filter(function (x) { return !!x; });
+
+  return { basePath: basePath, images: imgs };
+}
+
+function loadImagesManifest() {
+  return fetchJSON(IMAGES_MANIFEST_URL)
+    .then(function (raw) {
+      imagesCatalog = normalizeImagesManifest(raw);
+      return imagesCatalog;
+    })
+    .catch(function (err) {
+      console.warn("Images manifest not available, fallback to default:", err);
+      imagesCatalog = { basePath: "assets/images/", images: [] };
+      return imagesCatalog;
+    });
+}
+
+function pickRandomImageFromManifestNoRepeat() {
+  var list = imagesCatalog && imagesCatalog.images ? imagesCatalog.images : [];
+  if (!list || list.length === 0) return null;
+
+  var base = imagesCatalog.basePath || "assets/images/";
+
+  // Si une seule image, pas de choix possible
+  if (list.length === 1) {
+    var onlySrc = base + list[0];
+    lastRandomImageSrc = onlySrc;
+    return { src: onlySrc, alt: "Illustration aléatoire — ISTQB Révision" };
+  }
+
+  // Anti-répétition: on essaie quelques fois de tirer une image différente
+  var tries = 0;
+  var maxTries = 6;
+  var pickedSrc = null;
+
+  while (tries < maxTries) {
+    var idx = Math.floor(Math.random() * list.length);
+    var src = base + list[idx];
+
+    if (src !== lastRandomImageSrc) {
+      pickedSrc = src;
+      break;
+    }
+    tries++;
+  }
+
+  // Si on n'a pas trouvé différent (cas très rare), on force un index différent
+  if (!pickedSrc) {
+    var currentIndex = 0;
+    for (var i = 0; i < list.length; i++) {
+      if (base + list[i] === lastRandomImageSrc) {
+        currentIndex = i;
+        break;
+      }
+    }
+    var forced = (currentIndex + 1) % list.length;
+    pickedSrc = base + list[forced];
+  }
+
+  lastRandomImageSrc = pickedSrc;
+  return { src: pickedSrc, alt: "Illustration aléatoire — ISTQB Révision" };
+}
+
+function resolveCardImage(card) {
+  // Si une carte a une image explicitement définie, elle override le random
+  if (card && card.image && card.image.src) {
+    var explicitSrc = safeText(card.image.src);
+    return {
+      src: explicitSrc,
+      alt: safeText(card.image.alt) !== "—" ? card.image.alt : DEFAULT_CARD_IMAGE.alt
+    };
+  }
+
+  var randomImg = pickRandomImageFromManifestNoRepeat();
+  return randomImg ? randomImg : DEFAULT_CARD_IMAGE;
+}
+
+/* -----------------------------
+   Data model (deck/cards)
 ----------------------------- */
 
 function normalizeDeck(rawDeck, fallbackId) {
@@ -146,13 +244,6 @@ function normalizeDeck(rawDeck, fallbackId) {
   });
 
   return { id: id, title: title, cards: cards };
-}
-
-function resolveCardImage(card) {
-  if (card && card.image && card.image.src) {
-    return { src: safeText(card.image.src), alt: safeText(card.image.alt) };
-  }
-  return DEFAULT_CARD_IMAGE;
 }
 
 /* -----------------------------
@@ -367,10 +458,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return loadDeckFile(meta)
       .then(function (deck) {
         currentDeck = deck;
-
-        // ✅ reprise progression
         currentIndex = Math.max(0, Math.min(loadSavedIndex(currentDeck.id), currentDeck.cards.length - 1));
-
         return tryLoadDeckRef(currentDeck.id);
       })
       .then(function (ref) {
@@ -378,6 +466,21 @@ document.addEventListener("DOMContentLoaded", function () {
         render(currentDeck, currentIndex, currentCoverage);
       });
   }
+
+  loadImagesManifest()
+    .then(function () { return loadDeckCatalog(); })
+    .then(function (meta) {
+      decksMeta = meta;
+      var selectedId = decksMeta[0].id;
+      fillDeckSelect(decksMeta, selectedId);
+      return loadDeckById(selectedId);
+    })
+    .catch(function (err) {
+      console.error(err);
+      setStatus("Erreur: " + err.message, true);
+      setAudit("Vérifie data/decks/index.json et les fichiers JSON.", true);
+      setControlsEnabled(false);
+    });
 
   if (deckSelect) {
     deckSelect.addEventListener("change", function (e) {
@@ -394,10 +497,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnNext.addEventListener("click", function () {
       if (!currentDeck || currentDeck.cards.length === 0) return;
       currentIndex = (currentIndex + 1) % currentDeck.cards.length;
-
-      // ✅ sauvegarde progression
       saveIndex(currentDeck.id, currentIndex);
-
       render(currentDeck, currentIndex, currentCoverage);
     });
   }
@@ -413,25 +513,8 @@ document.addEventListener("DOMContentLoaded", function () {
       while (next === currentIndex) next = Math.floor(Math.random() * n);
 
       currentIndex = next;
-
-      // ✅ sauvegarde progression
       saveIndex(currentDeck.id, currentIndex);
-
       render(currentDeck, currentIndex, currentCoverage);
     });
   }
-
-  loadDeckCatalog()
-    .then(function (meta) {
-      decksMeta = meta;
-      var selectedId = decksMeta[0].id;
-      fillDeckSelect(decksMeta, selectedId);
-      return loadDeckById(selectedId);
-    })
-    .catch(function (err) {
-      console.error(err);
-      setStatus("Erreur: " + err.message, true);
-      setAudit("Aucun deck chargé : vérifie data/decks/index.json", true);
-      setControlsEnabled(false);
-    });
 });
